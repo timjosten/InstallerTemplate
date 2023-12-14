@@ -1,4 +1,4 @@
-ui_print " " "Installer template v1.0 by timjosten" " "
+ui_print " " "Installer template v1.01 by timjosten" " "
 umount_all
 mount_all
 mount -o rw,remount /system_root
@@ -65,14 +65,12 @@ else
 fi
 
 delete_list() {
-cat <<'END'
-$(for file in $delete; do echo $file; done)
-END
+cat <<'HEREDOC'$([ -z "$delete" ] || echo; for file in $delete; do echo $file; done)
+HEREDOC
 }
 add_list() {
-cat <<'END'
-$(for file in $add; do echo $file; done)
-END
+cat <<'HEREDOC'$([ -z "$add" ] || echo; for file in $add; do echo $file; done)
+HEREDOC
 }
 
 case \$1 in
