@@ -1,4 +1,4 @@
-ui_print " " "Installer template v1.01 by timjosten" " "
+ui_print " " "Installer template v1.02 by timjosten" " "
 umount_all
 mount_all
 mount -o rw,remount /system_root
@@ -29,6 +29,13 @@ dir=$home/system/add/
 for file in `find $dir -type f | sed 's|^'$dir'||g'`; do
   mkdir -p $(dirname "/system_root/system/$file")
   cp -Tp "$dir$file" "/system_root/system/$file" && ui_print "Extract $file... ok" || abort "Cannot extract file $file"
+  mode=644
+  case "/$file" in
+    */bin/*|*/xbin/*)
+      mode=755
+      ;;
+  esac
+  chmod $mode "/system_root/system/$file"
   add="$add $file"
 done
 
